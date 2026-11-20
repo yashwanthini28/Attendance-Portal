@@ -1,0 +1,733 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- LOGIN PAGE -->
+ 
+    <div id="loginPage" class="login-container">
+        <div class="login-box">
+            <h1>Attendance Portal</h1>
+            <p>Student Attendance Management System</p>
+
+            <form id="loginForm">
+                <label>Login As</label>
+                <select id="loginRole" required>
+                    <option value="">Select Role</option>
+                    <option value="admin">Admin</option>
+                    <option value="tutor">Tutor</option>
+                    <option value="staff">Staff</option>
+                    <option value="student">Student</option>
+                </select>
+
+                <label>ID</label>
+                <input type="text" id="loginId" placeholder="Enter your ID" required>
+
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter password" required>
+
+                <button type="submit">Login</button>
+                <p id="loginMessage"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="portalPage" class="portal-con hidden">
+
+        <header class="header">
+            <div>
+                <h2>Attendance Portal</h2>
+                <p id="welcomeMessage"></p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </header>
+
+        <!-- ADMIN PORTAL -->
+
+        <div id="adminPortal" class="role-portal hidden">
+
+            <nav class="navbar">
+                <button onclick="showSection('addAccountSection',this)" class="active">Add Tutor / Staff</button>
+                <button onclick="showSection('accountDetailsSection',this)">Account Details</button>
+                <button onclick="exportUsersToJSON()">Export Users to JSON</button>
+                <button onclick="exportAttendanceToJSON()">Export Attendance to JSON</button>
+
+                <button type="button" onclick="document.getElementById('usersImportFile').click()">Import Users JSON</button>
+
+                <input type="file" id="usersImportFile" accept=".json,application/json"
+                        style="display:none"   
+                        onchange="importUsersFromJSON(event)">
+
+                <button type="button" onclick="document.getElementById('attendanceImportFile').click()">Import Attendance JSON</button>
+
+                <input type="file" id="attendanceImportFile"
+                    accept=".json,application/json"
+                    style="display:none"
+                    onchange="importAttendanceFromJSON(event)">
+            </nav>
+
+            <section id="addAccountSection" class="content-section">
+                <h2>Add Tutor or Staff</h2>
+
+                <form id="addAccountForm" class="form-box">
+
+                    <label>Select Role</label>
+                    <select id="newAccountRole" required>
+                        <option value="">Select Role</option>
+                        <option value="tutor">Tutor</option>
+                        <option value="staff">Staff</option>
+                    </select>
+
+                    <label>Account ID</label>
+                    <input type="text" id="newAccountId" placeholder="Enter tutor/staff ID" required>
+
+                    <label>Name</label>
+                    <input type="text" id="newAccountName" placeholder="Enter name" required>
+
+                    <label>Password</label>
+                    <input type="password" id="newAccountPassword" placeholder="Create password" required>
+
+                    <button type="submit">Create Account</button>
+                    <p id="addAccountMessage"></p>
+
+                </form>
+            </section>
+
+            <section id="accountDetailsSection" class="content-section hidden">
+                <h2>Tutor and Staff Details</h2>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Account ID</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accountDetailsBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- TUTOR PORTAL -->
+
+        <div id="tutorPortal" class="role-portal hidden">
+
+            <nav class="navbar">
+                <button onclick="showSection('addStudentSection',this)" class="active">Add Student</button>
+                <button onclick="showSection('studentDetailsSection',this)">Student Details</button>
+                <button onclick="showSection('staffTrackingSection',this)">Staff Tracking</button>
+                <button onclick="showSection('attendanceRecordsSection',this)">Attendance Records</button>
+                <button onclick="showSection('tutorAttendanceAnalysisSection',this)">Attendance Analysis</button>
+                <button onclick="showSection('tutorWarningSection',this)">Warning</button>
+                <button onclick="showSection('tutorProfileSection',this)">My Profile</button>
+            </nav>
+
+            <!-- ADD STUDENT -->
+
+            <!-- ADD STUDENT -->
+
+            <section id="addStudentSection" class="content-section">
+
+                <h2>Add Student Details</h2>
+
+                <div class="form-box class-settings-box">
+
+
+                    <label>Department</label>
+                    <select id="newStudentDepartment" required>
+                        <option value="">Select Department</option>
+                        <option value="CSE">CSE</option>
+                        <option value="AI&DS">AI&DS</option>
+                        <option value="AIML">AIML</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <option value="EEE">EEE</option>
+                        <option value="MECH">MECH</option>
+                        <option value="CIVIL">CIVIL</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+
+                    <label>Semester</label>
+                    <select id="newStudentSemester" required>
+                        <option value="">Select Semester</option>
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
+                        <option value="5">Semester 5</option>
+                        <option value="6">Semester 6</option>
+                        <option value="7">Semester 7</option>
+                        <option value="8">Semester 8</option>
+                    </select>
+
+                    <!-- <p id="classSettingsMessage" class="chart-description">
+                        Choose these details once. They will stay selected when you add each student.
+                    </p> -->
+
+                </div>
+
+                <form id="addStudentForm" class="form-box">
+
+                    <h3>Student Details</h3>
+
+                    <label>Student ID</label>
+                    <input type="text" id="newStudentId"
+                            required placeholder="Enter student ID">
+
+                    <label>Student Name</label>
+                    <input type="text" id="newStudentName"
+                                required placeholder="Enter student name">
+
+                    <label>Parent's Phone Number</label>
+                    <input type="tel" id="newParentNumber"
+                            placeholder="Enter 10 digit phone number"
+                                        maxlength="10"
+                                        pattern="[0-9]{10}" required>
+
+                    <label>Parent's Email</label>
+                    <input type="email" id="newParentEmail"
+                            placeholder="Enter parent's email">
+
+                    <label>Password</label>
+                    <input type="password" id="newStudentPassword"
+                            required placeholder="Create student password">
+
+                    <button type="submit">Add Student</button>
+
+                    <p id="addStudentMessage"></p>
+
+                </form>
+
+            </section>
+
+            <!-- STUDENT DETAILS -->
+
+            <section id="studentDetailsSection" class="content-section hidden">
+
+                <h2>Student Details</h2>
+
+                <div class="chart-container tutor-chart-container">
+                    <h3>Student Attendance Overview</h3>
+                    <p id="tutorStudentCount" class="chart-description">Total students: 0</p>
+                    <canvas id="tutorAttendanceChart"></canvas>
+                    <p class="chart-description">
+                        The chart compares Present and Absent periods for every student.
+                    </p>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Student Name</th>
+                                <th>Department</th>
+                                <th>Semester</th>
+                                <th>Year</th>
+                                <th>Present</th>
+                                <th>Absent</th>
+                                <th>Percentage</th>
+                                <th>Warning</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentDetailsBody"></tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <!-- STAFF TRACKING -->
+
+            <section id="staffTrackingSection" class="content-section hidden">
+
+                <h2>Staff Attendance Tracking</h2>
+                <p>View which staff member marked attendance and when.</p>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Staff ID</th>
+                                <th>Staff Name</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Period</th>
+                                <th>Subject</th>
+                                <th>Students Marked</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staffTrackingBody"></tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <!-- ALL ATTENDANCE RECORDS -->
+
+            <section id="attendanceRecordsSection" class="content-section hidden">
+
+                <h2>All Attendance Records</h2>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Student Name</th>
+                                <th>Date</th>
+                                <th>Period</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Staff Name</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allAttendanceBody"></tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <!-- NEW TUTOR ATTENDANCE ANALYSIS -->
+
+            <section id="tutorAttendanceAnalysisSection" class="content-section hidden">
+
+                <h2>Attendance Analysis</h2>
+                <p>Filter attendance records and view the attendance chart.</p>
+
+                <div class="analysis-filter-box">
+
+                    <div class="filter-grid">
+
+                        <div>
+                            <label>Student ID</label>
+                            <input type="text" id="tutorFilterStudentId" placeholder="Enter student ID">
+                        </div>
+
+                        <div>
+                            <label>From Date</label>
+                            <input type="date" id="tutorFilterFromDate">
+                        </div>
+
+                        <div>
+                            <label>To Date</label>
+                            <input type="date" id="tutorFilterToDate">
+                        </div>
+
+                        <div>
+                            <label>Staff Name</label>
+                            <input type="text" id="tutorFilterStaff" placeholder="Enter staff name">
+                        </div>
+
+                        <div>
+                            <label>Period</label>
+                            <select id="tutorFilterPeriod">
+                                <option value="">All Periods</option>
+                                <option value="1">Period 1</option>
+                                <option value="2">Period 2</option>
+                                <option value="3">Period 3</option>
+                                <option value="4">Period 4</option>
+                                <option value="5">Period 5</option>
+                                <option value="6">Period 6</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label>Subject</label>
+                            <input type="text" id="tutorFilterSubject" placeholder="Enter subject">
+                        </div>
+
+                    </div>
+
+                    <div class="filter-buttons">
+                        <button type="button" onclick="applyTutorAttendanceFilters()">Apply Filters</button>
+                        <button type="button" class="secondary-btn" onclick="clearTutorAttendanceFilters()">Clear Filters</button>
+                    </div>
+
+                </div>
+
+                <div class="analysis-summary">
+                    <p id="tutorFilterResult">No filters applied.</p>
+                    <p id="tutorFilterCounts"></p>
+                </div>
+
+                <div class="chart-container analysis-chart-container">
+                    <h3>Filtered Attendance Chart</h3>
+                    <canvas id="tutorFilteredAttendanceChart"></canvas>
+                </div>
+
+                <h3>Filtered Attendance Records</h3>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Student Name</th>
+                                <th>Date</th>
+                                <th>Period</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Staff Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tutorFilteredAttendanceBody"></tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <!-- TUTOR WARNING SECTION -->
+
+<section id="tutorWarningSection" class="content-section hidden">
+
+    <h2>Student Attendance Warning</h2>
+
+    <p>
+        Students whose attendance is below 60%.
+        Contact their parents to improve attendance.
+    </p>
+
+    <!-- WARNING SUMMARY -->
+
+    <div class="warning-summary-box">
+
+        <h3>Low Attendance Students</h3>
+
+        <h2 id="warningStudentCount">0</h2>
+
+        <p>Students below 60% attendance</p>
+
+    </div>
+
+    <!-- BULK SMS AND EMAIL -->
+
+    <div class="bulk-message-box">
+
+        <h3>Send Messages to All Parents</h3>
+
+        <p>
+            Send an attendance warning to the parents
+            of all students below 60%.
+        </p>
+
+        <div class="bulk-message-buttons">
+
+            <button type="button"
+                class="send-all-sms-btn"
+                onclick="sendSMSAllParents()">
+
+                Send SMS to All
+
+            </button>
+
+            <button type="button"
+                class="send-all-email-btn"
+                onclick="sendEmailAllParents()">
+
+                Send Email to All
+
+            </button>
+
+        </div>
+
+        <p id="bulkWarningMessage"></p>
+
+    </div>
+
+    <!-- INDIVIDUAL PARENT MESSAGES -->
+
+    <h3>Individual Parent Contact</h3>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Attendance</th>
+                    <th>Parent Phone</th>
+                    <th>Parent Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="tutorWarningBody"></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+            <!-- TUTOR PROFILE -->
+
+            <section id="tutorProfileSection" class="content-section hidden">
+
+                <h2>My Profile</h2>
+
+                <div class="form-box">
+
+                    <label>Role</label>
+                    <input type="text" value="Tutor" disabled>
+
+                    <label>Name</label>
+                    <input type="text" id="tutorProfileName">
+
+                    <label>New Password (Optional)</label>
+                    <input type="password" id="tutorNewPassword">
+
+                    <label>Confirm Password</label>
+                    <input type="password" id="tutorConfirmPassword">
+
+                    <button onclick="updateProfile()">Update Profile</button>
+                    <p id="profileMessage"></p>
+
+                </div>
+
+            </section>
+
+        </div>
+
+        <!-- STAFF PORTAL -->
+
+        <div id="staffPortal" class="role-portal hidden">
+
+            <nav class="navbar">
+                <button onclick="showSection('markAttendanceSection',this)" class="active">Mark Attendance</button>
+                <button onclick="showSection('staffProfileSection',this)">My Profile</button>
+            </nav>
+
+            <section id="markAttendanceSection" class="content-section">
+
+                <h2>Mark Student Attendance</h2>
+
+                <div class="form-box">
+
+                    <label>Date</label>
+                    <input type="date" id="attendanceDate">
+
+                    <label>Period</label>
+                    <select id="attendancePeriod">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+
+                    <label>Subject</label>
+                    <input type="text" id="attendanceSubject"
+       placeholder="Enter subject" readonly>
+
+                    <div class="subject-actions">
+                    <button type="button" id="editSubjectButton"
+                        onclick="editStaffSubject()">Edit Subject</button>
+
+                    <button type="button" id="saveSubjectButton"
+            onclick="saveStaffSubject()" style="display:none;">
+                    Save Subject
+                    </button>
+
+                    <button type="button" id="cancelSubjectButton"
+                        onclick="cancelStaffSubjectEdit()" style="display:none;">
+                        Cancel
+                    </button>
+             </div>
+
+<p id="staffSubjectMessage"></p>
+
+                </div>
+
+                <h3>Student Attendance</h3>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Student Name</th>
+                                <th>Attendance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staffStudentBody"></tbody>
+                    </table>
+                </div>
+
+                <button onclick="saveAttendance()">Save Attendance</button>
+                <p id="attendanceMessage"></p>
+
+            </section>
+
+            <section id="staffProfileSection" class="content-section hidden">
+
+                <h2>My Profile</h2>
+
+                <div class="form-box">
+
+                    <label>Account ID</label>
+                    <input type="text" id="staffProfileID" disabled>
+
+                    <label>Role</label>
+                    <input type="text" value="Staff" disabled>
+
+                    <label>Name</label>
+                    <input type="text" id="staffProfileName">
+
+                    <label>New Password</label>
+                    <input type="password" id="staffNewPassword">
+
+                    <label>Confirm Password</label>
+                    <input type="password" id="staffConfirmPassword">
+
+                    <button onclick="updateProfile()">Update Profile</button>
+                    <p id="staffProfileMessage"></p>
+
+                </div>
+
+            </section>
+
+        </div>
+
+        <!-- STUDENT PORTAL -->
+
+        <div id="studentPortal" class="role-portal hidden">
+
+            <nav class="navbar">
+                <button onclick="showSection('myAttendanceSection',this)" class="active">My Attendance</button>
+                <button onclick="showSection('studentProfileSection',this)">My Profile</button>
+            </nav>
+
+            <section id="myAttendanceSection" class="content-section">
+
+                <h2>My Attendance</h2>
+
+                <div class="chart-container student-chart-container">
+                    <h3>My Attendance Overview</h3>
+                    <canvas id="studentAttendanceChart"></canvas>
+                    <p id="studentChartMessage" class="chart-description"></p>
+                </div>
+
+                <div id="studentAttendanceWarning" class="warning-message hidden"></div>
+
+                <div class="form-box filter-box">
+
+                    <h3>Filter Attendance</h3>
+
+                    <div class="student-filter-grid">
+
+                        <div>
+                            <label>From Date</label>
+                            <input type="date" id="studentFromDate">
+                        </div>
+
+                        <div>
+                            <label>To Date</label>
+                            <input type="date" id="studentToDate">
+                        </div>
+
+                        <div>
+                            <label>Period</label>
+                            <select id="studentPeriodFilter">
+                                    <option value="">All Periods</option>
+                                    <option value="1">Period 1</option>
+                                    <option value="2">Period 2</option>
+                                    <option value="3">Period 3</option>
+                                    <option value="4">Period 4</option>
+                                    <option value="5">Period 5</option>
+                                    <option value="6">Period 6</option>
+                            </select>
+                       </div>
+
+                       <div>
+                            <label>Subject</label>
+                            <input type="text" id="studentSubjectFilter"
+                                    placeholder="Enter subject name">
+                        </div>
+
+                     </div>
+
+
+                    <button type="button" onclick="renderStudentAttendance()">Apply Filters</button>
+                    <button type="button" class="secondary-btn" onclick="clearStudentFilters()">Clear Filters</button>
+
+                    <!-- <button type="button" class="notification-btn" onclick="enableStudentNotifications()">
+                        Enable Browser Notifications
+                    </button> -->
+
+                    <p id="notificationMessage" class="chart-description"></p>
+
+                </div>
+
+                <h3>Attendance History</h3>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Period</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Staff Name</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myAttendanceBody"></tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <section id="studentProfileSection" class="content-section hidden">
+
+                <h2>My Profile</h2>
+
+                <div class="form-box">
+
+                    <label>Account ID</label>
+                    <input type="text" id="studentProfileId" disabled>
+
+                    <label>Role</label>
+                    <input type="text" value="Student" disabled>
+
+                    <label>Name</label>
+                    <input type="text" id="studentProfileName">
+
+                    <label>New Password</label>
+                    <input type="password" id="studentNewPassword">
+
+                    <label>Confirm Password</label>
+                    <input type="password" id="studentConfirmPassword">
+
+                    <button onclick="updateProfile()">Update Profile</button>
+                    <p id="studentProfileMessage"></p>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="js/script.js"></script>
+
+</body>
+</html>
