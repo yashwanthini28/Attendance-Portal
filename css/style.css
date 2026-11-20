@@ -1,0 +1,835 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f1f3f8;
+    color: #252542;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* LOGIN PAGE */
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.login-box {
+    background: white;
+    width: 400px;
+    max-width: 100%;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.login-box h1 {
+    text-align: center;
+    color: #292950;
+    margin-bottom: 10px;
+}
+
+.login-box > p {
+    text-align: center;
+    color: #777;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 7px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+    background: white;
+}
+
+input:focus,
+select:focus {
+    border-color: #6868b5;
+}
+
+button {
+    background: #6868b5;
+    color: white;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background: #4f4f99;
+}
+
+.login-box button {
+    width: 100%;
+    margin-top: 22px;
+}
+
+/* MESSAGES */
+
+#loginMessage,
+#addStudentMessage,
+#attendanceMessage,
+#profileMessage,
+#staffProfileMessage,
+#studentProfileMessage,
+#addAccountMessage,
+#notificationMessage {
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+/* HEADER */
+
+.portal-con {
+    min-height: 100vh;
+    width: 100%;
+}
+
+.header {
+    background: #292950;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.header h2 {
+    margin-bottom: 6px;
+}
+
+.header p {
+    color: #dddded;
+}
+
+.logout-btn {
+    background: #c0392b;
+}
+
+.logout-btn:hover {
+    background: #922b21;
+}
+
+/* NAVIGATION */
+
+.navbar {
+    background: #17172e;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.navbar button {
+    background: transparent;
+    color: white;
+    border: 1px solid #555577;
+}
+
+.navbar button:hover,
+.navbar button.active {
+    background: #6868b5;
+    border-color: #6868b5;
+}
+
+/* CONTENT */
+
+.content-section {
+    background: white;
+    margin: 25px;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+}
+
+.content-section h2 {
+    color: #292950;
+    margin-bottom: 20px;
+}
+
+.content-section h3 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.form-box {
+    max-width: 600px;
+    margin-top: 15px;
+}
+
+.form-box button {
+    margin-top: 20px;
+}
+
+/* CHARTS */
+
+.chart-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto 30px;
+    padding: 22px;
+    background: #fafaff;
+    border: 1px solid #e2e2f0;
+    border-radius: 12px;
+}
+
+.chart-container h3 {
+    color: #292950;
+    text-align: center;
+    margin: 0 0 12px;
+}
+
+.chart-container canvas {
+    display: block;
+    width: 100%;
+    max-height: 380px;
+}
+
+.tutor-chart-container canvas {
+    min-height: 280px;
+}
+
+.student-chart-container {
+    max-width: 520px;
+}
+
+.student-chart-container canvas {
+    max-height: 320px;
+}
+
+.chart-description {
+    color: #666;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 12px;
+}
+
+/* TUTOR ATTENDANCE ANALYSIS */
+
+.analysis-filter-box {
+    background: #fafaff;
+    border: 1px solid #e2e2f0;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.filter-grid label {
+    margin-top: 0;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.filter-buttons button {
+    min-width: 130px;
+}
+
+.analysis-summary {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f1f3f8;
+    border-radius: 8px;
+    line-height: 1.8;
+    font-weight: bold;
+}
+
+.analysis-chart-container {
+    max-width: 100%;
+}
+
+.analysis-chart-container canvas {
+    height: 350px;
+    max-height: none;
+}
+
+/* TABLE */
+
+.table-container {
+    width: 100%;
+    overflow: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+    background: white;
+}
+
+thead {
+    background: #292950;
+    color: white;
+}
+
+th,
+td {
+    padding: 13px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+th {
+    font-weight: bold;
+}
+
+tbody tr:nth-child(even) {
+    background: #f1f3f8;
+}
+
+tbody tr:hover {
+    background: #e8e8f5;
+}
+
+/* ACTION BUTTONS */
+
+.edit-btn {
+    background: #2980b9;
+    margin: 3px;
+}
+
+.edit-btn:hover {
+    background: #21618c;
+}
+
+.delete-btn {
+    background: #e74c3c;
+    margin: 3px;
+}
+
+.delete-btn:hover {
+    background: #c0392b;
+}
+
+.complete-btn {
+    background: #218c74;
+    margin: 3px;
+}
+
+.complete-btn:hover {
+    background: #176b58;
+}
+
+.secondary-btn {
+    background: #777;
+    margin-left: 5px;
+}
+
+.secondary-btn:hover {
+    background: #555;
+}
+
+.notification-btn {
+    background: #2874a6;
+    display: block;
+}
+
+.notification-btn:hover {
+    background: #1f618d;
+}
+
+td button {
+    margin: 3px;
+}
+
+/* ATTENDANCE STATUS */
+
+.status-present {
+    color: green;
+    font-weight: bold;
+}
+
+.status-absent {
+    color: #d63031;
+    font-weight: bold;
+}
+
+/* WARNINGS */
+
+.warning-message {
+    background: #ffe5e5;
+    color: #c0392b;
+    border: 1px solid #e74c3c;
+    padding: 14px;
+    border-radius: 7px;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+.warning-cell {
+    color: #c0392b;
+    font-weight: bold;
+}
+
+.safe-cell {
+    color: #218c74;
+    font-weight: bold;
+}
+
+/* STUDENT FILTER */
+
+.filter-box {
+    max-width: 600px;
+    padding: 18px;
+    border: 1px solid #e2e2f0;
+    border-radius: 10px;
+    background: #fafaff;
+}
+
+.filter-box h3 {
+    margin-top: 0;
+}
+
+/* TABLET */
+
+@media screen and (max-width: 768px) {
+
+    .content-section {
+        margin: 12px;
+        padding: 15px;
+    }
+
+    .navbar {
+        justify-content: flex-start;
+    }
+
+    .navbar button {
+        flex: 1;
+        min-width: 130px;
+    }
+
+    .chart-container {
+        padding: 15px;
+    }
+
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* MOBILE */
+
+@media screen and (max-width: 480px) {
+
+    .login-box {
+        padding: 25px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .content-section {
+        margin: 10px;
+        padding: 12px;
+    }
+
+    .navbar button {
+        width: 100%;
+    }
+
+    .secondary-btn {
+        margin-left: 0;
+    }
+
+    .filter-buttons {
+        flex-direction: column;
+    }
+
+    .filter-buttons button {
+        width: 100%;
+    }
+}
+/* MOBILE RESPONSIVE DESIGN */
+
+@media screen and (max-width: 768px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    .navbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .navbar button {
+        flex: 1 1 120px;
+    }
+
+    .content-section {
+        padding: 15px;
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 650px;
+    }
+
+    .chart-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    input, select, button {
+        max-width: 100%;
+    }
+}
+
+/* STAFF SUBJECT EDITING */
+
+.subject-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#attendanceSubject[readonly] {
+    background-color: #eeeeee;
+    cursor: not-allowed;
+}
+
+#staffSubjectMessage {
+    margin-top: 8px;
+}
+
+/* PARENT SMS ALERTS */
+
+.sms-ready {
+    color: #d68910;
+    font-weight: bold;
+}
+
+.sms-sent {
+    color: #218c74;
+    font-weight: bold;
+}
+
+.sms-button {
+    background: #218c74;
+    margin: 3px;
+}
+
+.sms-button:hover {
+    background: #176b58;
+}
+
+.sms-message {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    padding: 12px;
+    border-radius: 7px;
+    margin: 15px 0;
+}
+
+#parentSMSBody td {
+    vertical-align: middle;
+}
+
+/* LOW ATTENDANCE PARENT MESSAGE BUTTONS */
+
+.low-attendance-title {
+    color: #c0392b;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.parent-message-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.parent-message-btn {
+    background: #c0392b;
+    color: #ffffff;
+    width: 100%;
+    max-width: 110px;
+    padding: 7px 9px;
+    margin: 0;
+    font-size: 12px;
+    border-radius: 5px;
+}
+
+.parent-message-btn:hover {
+    background: #922b21;
+}
+
+.parent-contact-missing {
+    display: block;
+    color: #777;
+    font-weight: normal;
+    margin-top: 5px;
+}
+
+/* TUTOR ATTENDANCE ANALYSIS - COMPACT LAYOUT */
+
+.analysis-filter-box {
+    padding: 12px;
+    margin-top: 12px;
+}
+
+.analysis-filter-box .filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.analysis-filter-box input,
+.analysis-filter-box select {
+    padding: 8px;
+}
+
+.analysis-filter-box .filter-buttons {
+    margin-top: 12px;
+}
+
+.analysis-chart-container {
+    max-width: 100%;
+    margin: 12px auto;
+    padding: 12px;
+}
+
+.analysis-chart-container canvas {
+    height: 230px !important;
+    max-height: 230px;
+    width: 100%;
+}
+
+
+/* STUDENT PORTAL - HORIZONTAL FILTERS */
+
+.filter-box {
+    max-width: 100%;
+    padding: 15px;
+}
+
+.filter-box form {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    align-items: end;
+}
+
+.filter-box form label {
+    margin-top: 0;
+}
+
+.filter-box form button {
+    width: 100%;
+}
+
+.student-filter-results {
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+/* RESPONSIVE DESIGN */
+
+@media screen and (max-width: 768px) {
+
+    .filter-box form {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .analysis-chart-container canvas {
+        height: 220px !important;
+        max-height: 220px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    .filter-box form {
+        grid-template-columns: 1fr;
+    }
+
+    .analysis-filter-box .filter-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* STUDENT ATTENDANCE FILTER - SIDE BY SIDE */
+
+.student-filter-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.student-filter-grid div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.student-filter-grid label {
+    font-weight: bold;
+}
+
+.student-filter-grid input,
+.student-filter-grid select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 600px) {
+    .student-filter-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* TUTOR WARNING TAB */
+
+.warning-summary-box {
+    background: #fff1f1;
+    border-left: 5px solid #e74c3c;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+.warning-summary-box h2 {
+    color: #e74c3c;
+    font-size: 32px;
+    margin: 10px 0;
+}
+
+.bulk-message-box {
+    background: white;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.bulk-message-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.send-all-sms-btn {
+    background: #219653;
+}
+
+.send-all-email-btn {
+    background: #4267a9;
+}
+
+.bulk-message-buttons button {
+    color: white;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#tutorWarningBody .warning-cell {
+    color: #d63031;
+    font-weight: bold;
+}
+
+#tutorWarningBody button {
+    margin: 3px;
+}
+
+#bulkWarningMessage {
+    margin-top: 12px;
+    font-weight: 600;
+}
+
+
+/* STUDENT PORTAL FILTERS - SINGLE ROW */
+
+.student-filter-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+    align-items: end;
+    width: 100%;
+}
+
+.student-filter-grid > div {
+    min-width: 0;
+}
+
+.student-filter-grid input,
+.student-filter-grid select {
+    width: 100%;
+    min-width: 0;
+    padding: 10px;
+}
+
+.filter-box {
+    width: 100%;
+}
+
+.filter-box > button {
+    margin-top: 15px;
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+    .student-filter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 550px) {
+    .student-filter-grid {
+        grid-template-columns: 1fr;
+    }
+}
